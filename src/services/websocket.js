@@ -12,6 +12,10 @@ const WS_URL = process.env.REACT_APP_WS_URL ||
     ? 'wss://chatbot-backend-1b31.onrender.com/ws'
     : 'ws://localhost:10000/ws');
 
+console.log('WebSocket URL:', WS_URL);
+console.log('Environment:', process.env.NODE_ENV);
+console.log('Protocol:', window.location.protocol);
+
 // Add connection options
 const WS_OPTIONS = {
   timeout: CONNECTION_TIMEOUT,
