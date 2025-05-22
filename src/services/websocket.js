@@ -8,11 +8,14 @@ const PONG_TIMEOUT = 15000;
 
 // Get WebSocket URL from environment or fallback to Render URL
 const WS_URL = process.env.REACT_APP_WS_URL ||
-  (window.location.protocol === 'https:' ? 'wss://chatbot-backend-1b31.onrender.com' : 'ws://localhost:10000');
+  (window.location.protocol === 'https:'
+    ? 'wss://chatbot-backend-1b31.onrender.com/ws'
+    : 'ws://localhost:10000/ws');
 
 // Add connection options
 const WS_OPTIONS = {
   timeout: CONNECTION_TIMEOUT,
+  protocols: ['chat']
 };
 
 class WebSocketService {
