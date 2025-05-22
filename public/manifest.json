@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Chat App",
+  "name": "Real-time Chat Application",
   "icons": [
     {
       "src": "favicon.ico",
@@ -20,6 +20,8 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#ff69b4",
+  "background_color": "#ffffff",
+  "scope": "/",
+  "description": "A real-time chat application with WebSocket support"
 }

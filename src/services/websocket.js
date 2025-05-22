@@ -7,7 +7,8 @@ const PING_INTERVAL = 30000;
 const PONG_TIMEOUT = 15000;
 
 // Get WebSocket URL from environment or fallback to Render URL
-const WS_URL = process.env.REACT_APP_WS_URL || 'wss://chatbot-backend-1b31.onrender.com';
+const WS_URL = process.env.REACT_APP_WS_URL ||
+  (window.location.protocol === 'https:' ? 'wss://chatbot-backend-1b31.onrender.com' : 'ws://localhost:10000');
 
 // Add connection options
 const WS_OPTIONS = {

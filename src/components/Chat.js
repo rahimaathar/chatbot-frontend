@@ -43,6 +43,8 @@ const Chat = () => {
   const [themeAnchorEl, setThemeAnchorEl] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
   const [emojiAnchorEl, setEmojiAnchorEl] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
 
   // Refs
   const messagesEndRef = useRef(null);
@@ -178,8 +180,13 @@ const Chat = () => {
       return;
     }
 
+    setIsLoading(true);
+    setError('');
+
     try {
+      console.log('Attempting to connect to WebSocket server...');
       await websocketService.connect(username);
+      console.log('Successfully connected to WebSocket server');
       setSnackbar({
         open: true,
         message: "Connected successfully!",
@@ -187,12 +194,15 @@ const Chat = () => {
       });
       setIsConnected(true);
     } catch (error) {
+      console.error('WebSocket connection error:', error);
+      setError(error.message || 'Failed to connect to chat server');
       setSnackbar({
         open: true,
-        message: `Connection failed: ${error.message}`,
+        message: `Connection failed: ${error.message || 'Unknown error'}`,
         severity: "error"
       });
-      throw error;
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -369,123 +379,134 @@ const Chat = () => {
     });
   };
 
-  if (!isConnected) {
-    return (
-      <Box className="login-container">
+  return (
+    <Box className="chat-container">
+      {!isConnected ? (
         <ConnectionScreen
           username={username}
           setUsername={setUsername}
           handleConnect={handleConnect}
           currentTheme={currentTheme}
-          isLoading={connectionStatus === 'connecting'}
-          error={connectionStatus === 'error' ? "Connection error" : null}
+          isLoading={isLoading}
+          error={error}
         />
-      </Box>
-    );
-  }
-
-  return (
-    <Box className="chat-container">
-      <Sidebar
-        open={sidebarOpen}
-        toggleOpen={() => setSidebarOpen(!sidebarOpen)}
-        users={filteredUsers}
-        selectedUser={selectedUser}
-        onUserSelect={handleUserSelect}
-        rooms={chatRooms}
-        currentRoom={currentRoom}
-        onRoomChange={handleRoomChange}
-        onCreateRoom={handleCreateRoom}
-        theme={currentTheme}
-      />
-      <Box className="chat-area">
-        <ChatHeader
-          selectedUser={selectedUser}
-          currentTheme={currentTheme}
-          themes={themes}
-          handleThemeClick={handleThemeClick}
-          handleThemeClose={handleThemeClose}
-          handleThemeSelect={handleThemeSelect}
-          themeAnchorEl={themeAnchorEl}
-          soundEnabled={soundEnabled}
-          toggleSound={() => setSoundEnabled(!soundEnabled)}
-          handleLogout={handleLogout}
-          setShowMediaSidebar={setShowMediaSidebar}
-          showMediaSidebar={showMediaSidebar}
-        />
-        <Box className="messages-container">
-          {currentMessages.map((msg) => (
-            <ChatBubble
-              key={msg.id}
-              message={msg}
-              isOwnMessage={msg.sender === username}
-              theme={currentTheme}
-              themes={themes}
-            />
-          ))}
-          <div ref={messagesEndRef} />
-        </Box>
-        <InputArea
-          message={message}
-          handleChange={(e) => setMessage(e.target.value)}
-          handleKeyPress={(e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-              e.preventDefault();
-              handleSendMessage();
-            }
-          }}
-          handleSendMessage={handleSendMessage}
-          handleEmojiClick={handleEmojiClick}
-          handleMediaShare={handleMediaShare}
-          uploading={false}
-          isRecording={false}
-          startRecording={() => { }}
-          stopRecording={() => { }}
-          selectedUser={selectedUser}
-          currentTheme={currentTheme}
-          themes={themes}
-          inputRef={inputRef}
-        />
-      </Box>
-      {showMediaSidebar && (
-        <MediaSidebar
-          media={sharedMedia}
-          onClose={() => setShowMediaSidebar(false)}
-        />
-      )}
-      <Popover
-        open={Boolean(emojiAnchorEl)}
-        anchorEl={emojiAnchorEl}
-        onClose={handleEmojiClose}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-        transformOrigin={{
-          vertical: 'bottom',
-          horizontal: 'right',
-        }}
-      >
-        <Box sx={{ p: 1 }}>
-          <Picker
-            data={data}
-            onEmojiSelect={onEmojiSelect}
-            theme={currentTheme === 'dark' ? 'dark' : 'light'}
-            set="native"
-            previewPosition="none"
-            skinTonePosition="none"
+      ) : (
+        <>
+          <Sidebar
+            users={filteredUsers}
+            selectedUser={selectedUser}
+            onSelectUser={setSelectedUser}
+            onRoomChange={setCurrentRoom}
+            currentRoom={currentRoom}
+            chatRooms={chatRooms}
+            onAddRoom={(room) => setChatRooms([...chatRooms, room])}
+            onRemoveRoom={(room) => {
+              setChatRooms(chatRooms.filter(r => r !== room));
+              if (currentRoom === room) {
+                setCurrentRoom("general");
+              }
+            }}
+            open={sidebarOpen}
+            onClose={() => setSidebarOpen(false)}
+            currentTheme={currentTheme}
+            themes={themes}
           />
-        </Box>
-      </Popover>
-      <Snackbar
-        open={snackbar.open}
-        autoHideDuration={6000}
-        onClose={() => setSnackbar({ ...snackbar, open: false })}
-      >
-        <Alert severity={snackbar.severity} onClose={() => setSnackbar({ ...snackbar, open: false })}>
-          {snackbar.message}
-        </Alert>
-      </Snackbar>
+          <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', height: '100%' }}>
+            <ChatHeader
+              selectedUser={selectedUser}
+              currentTheme={currentTheme}
+              themes={themes}
+              handleThemeClick={(e) => setThemeAnchorEl(e.currentTarget)}
+              handleThemeClose={() => setThemeAnchorEl(null)}
+              handleThemeSelect={(theme) => {
+                setCurrentTheme(theme);
+                setThemeAnchorEl(null);
+              }}
+              themeAnchorEl={themeAnchorEl}
+              soundEnabled={soundEnabled}
+              toggleSound={() => setSoundEnabled(!soundEnabled)}
+              handleLogout={() => {
+                websocketService.disconnect();
+                setIsConnected(false);
+              }}
+              setShowMediaSidebar={setShowMediaSidebar}
+              showMediaSidebar={showMediaSidebar}
+            />
+            <Box sx={{ flex: 1, overflow: 'auto', p: 2 }}>
+              {currentMessages.map((msg, index) => (
+                <ChatBubble
+                  key={index}
+                  message={msg}
+                  isOwnMessage={msg.sender === username}
+                  currentTheme={currentTheme}
+                  themes={themes}
+                />
+              ))}
+              <div ref={messagesEndRef} />
+            </Box>
+            <InputArea
+              message={message}
+              handleChange={(e) => setMessage(e.target.value)}
+              handleKeyPress={(e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                  e.preventDefault();
+                  handleSendMessage();
+                }
+              }}
+              handleSendMessage={handleSendMessage}
+              handleEmojiClick={handleEmojiClick}
+              handleMediaShare={handleMediaShare}
+              uploading={false}
+              isRecording={false}
+              startRecording={() => { }}
+              stopRecording={() => { }}
+              selectedUser={selectedUser}
+              currentTheme={currentTheme}
+              themes={themes}
+              inputRef={inputRef}
+            />
+          </Box>
+          {showMediaSidebar && (
+            <MediaSidebar
+              media={sharedMedia}
+              onClose={() => setShowMediaSidebar(false)}
+            />
+          )}
+          <Popover
+            open={Boolean(emojiAnchorEl)}
+            anchorEl={emojiAnchorEl}
+            onClose={handleEmojiClose}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            transformOrigin={{
+              vertical: 'bottom',
+              horizontal: 'right',
+            }}
+          >
+            <Box sx={{ p: 1 }}>
+              <Picker
+                data={data}
+                onEmojiSelect={onEmojiSelect}
+                theme={currentTheme === 'dark' ? 'dark' : 'light'}
+                set="native"
+                previewPosition="none"
+                skinTonePosition="none"
+              />
+            </Box>
+          </Popover>
+          <Snackbar
+            open={snackbar.open}
+            autoHideDuration={6000}
+            onClose={() => setSnackbar({ ...snackbar, open: false })}
+          >
+            <Alert severity={snackbar.severity} onClose={() => setSnackbar({ ...snackbar, open: false })}>
+              {snackbar.message}
+            </Alert>
+          </Snackbar>
+        </>
+      )}
     </Box>
   );
 };
