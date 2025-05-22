@@ -11,7 +11,6 @@ const WS_URL = process.env.REACT_APP_WS_URL || 'wss://chatbot-backend-1b31.onren
 
 // Add connection options
 const WS_OPTIONS = {
-  protocols: ['chat'],
   timeout: CONNECTION_TIMEOUT,
 };
 
@@ -144,7 +143,7 @@ class WebSocketService {
 
     return new Promise((resolve, reject) => {
       try {
-        this.ws = new WebSocket(WS_URL, WS_OPTIONS.protocols);
+        this.ws = new WebSocket(WS_URL);
 
         this.timers.connectionTimeout = setTimeout(() => {
           if (!this.isConnected) {
