@@ -25,7 +25,7 @@ const ConnectionScreen = ({
     return (
         <Paper className="login-paper">
             <Typography variant="h4" gutterBottom>
-                Welcome to Chat
+                HelloME
             </Typography>
             <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
                 Enter your username to start chatting
