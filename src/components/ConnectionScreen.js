@@ -40,6 +40,31 @@ const ConnectionScreen = ({
                     disabled={isLoading}
                     error={!!error}
                     helperText={error}
+                         sx={{
+    '& label': {
+      color: 'pink',
+    },
+    '& label.Mui-focused': {
+      color: 'hotpink',
+    },
+    '& .MuiInput-underline:after': {
+      borderBottomColor: 'pink',
+    },
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderColor: 'pink',
+      },
+      '&:hover fieldset': {
+        borderColor: 'hotpink',
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: 'deeppink',
+      },
+    },
+    '& .MuiInputBase-input': {
+      color: 'pink',
+    },
+  }}
                 />
                 <Button
                     fullWidth
