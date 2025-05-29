@@ -1,36 +1,56 @@
-# Real-Time Chat Application
+# Chat Application Backend
 
-A modern, real-time chat application built with Python WebSocket backend and React frontend, featuring private messaging, room-based chat, and robust security features.
+A robust WebSocket server implementation in Python that powers real-time chat functionality with advanced security features and room-based messaging.
 
-## 🌟 Features
+## 🚀 Features
 
-- **Real-time Communication**: Instant message delivery using WebSocket technology
-- **Room-based Chat**: Create and join different chat rooms
-- **Private Messaging**: Send direct messages to other users
-- **User Management**: Track online users and handle user sessions
-- **Security Features**:
-  - CORS protection with configurable allowed origins
-  - Rate limiting to prevent abuse
-  - IP-based connection attempt tracking
-  - Automatic ban system for excessive connection attempts
-- **Robust Error Handling**: Graceful handling of disconnections and errors
-- **Ping/Pong**: Connection health monitoring
-- **System Messages**: Automatic notifications for user events
+- **WebSocket Server**: Asynchronous WebSocket server using `websockets` library
+- **Room Management**: Support for multiple chat rooms with dynamic creation
+- **Private Messaging**: Direct user-to-user messaging capabilities
+- **Security**:
+  - Configurable CORS with wildcard pattern matching
+  - Rate limiting (20 attempts per 15 seconds)
+  - IP-based connection tracking
+  - Automatic temporary bans for abuse
+- **Connection Management**:
+  - Automatic ping/pong for connection health
+  - Graceful connection handling
+  - User session tracking
+- **Logging**: Comprehensive logging system for monitoring and debugging
 
 ## 🛠️ Tech Stack
 
-### Backend
 - Python 3.8+
-- `websockets` library for WebSocket server
-- Asyncio for asynchronous operations
-- Built-in logging system
+- `websockets` library
+- `asyncio` for asynchronous operations
+- Built-in `logging` module
+- `fnmatch` for pattern matching
 
-### Frontend
-- React
-- WebSocket client
-- Modern UI components
+## 📋 Prerequisites
 
-## ⚙️ Configuration
+- Python 3.8 or higher
+- pip (Python package manager)
+
+## ⚙️ Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/rahimaathar/chatbot-backend.git
+cd chatbot-backend
+```
+
+2. Create and activate a virtual environment (recommended):
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
+
+3. Install dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+## 🔧 Configuration
 
 The server can be configured through environment variables:
 
@@ -39,73 +59,29 @@ PORT=10000  # WebSocket server port
 ENVIRONMENT=production  # Set to 'production' for strict CORS
 ```
 
-## 🚀 Getting Started
+Default configuration in `ServerConfig` class:
+- Host: 0.0.0.0
+- Port: 10000 (configurable via PORT env var)
+- Max connection attempts: 20 per 15 seconds
+- Connection timeout: 15 seconds
+- Message size limit: 1MB
+- Ping interval: 20 seconds
+- Ping timeout: 10 seconds
 
-### Backend Setup
+## 🚀 Running the Server
 
-1. Clone the repository:
-```bash
-git clone https://github.com/yourusername/chat-app.git
-cd chat-app/backend
-```
-
-2. Install dependencies:
-```bash
-pip install -r requirements.txt
-```
-
-3. Run the server:
 ```bash
 python chatbot.py
 ```
 
 The server will start on `ws://0.0.0.0:10000/ws` by default.
 
-### Frontend Setup
+## 📡 WebSocket Protocol
 
-1. Navigate to the frontend directory:
-```bash
-cd ../frontend
-```
+### Connection
 
-2. Install dependencies:
-```bash
-npm install
-```
-
-3. Start the development server:
-```bash
-npm run dev
-```
-
-## 🔒 Security Features
-
-- **CORS Protection**: Configurable allowed origins with wildcard support
-- **Rate Limiting**: Maximum 20 connection attempts per 15 seconds
-- **IP Banning**: Automatic temporary bans for excessive connection attempts
-- **Connection Timeout**: 15-second timeout for initial connection setup
-- **Message Size Limit**: 1MB maximum message size
-- **Ping/Pong**: 20-second ping interval with 10-second timeout
-
-## 📝 API Documentation
-
-### WebSocket Protocol
-
-The server uses the 'chat' subprotocol. All messages are JSON-formatted with the following structure:
-
-```json
-{
-  "type": "connect|message|private|ping",
-  "content": "message content",
-  "username": "sender name",
-  "room": "room name",
-  "timestamp": "ISO timestamp"
-}
-```
-
-### Message Types
-
-1. **Connect**
+1. Connect to the WebSocket endpoint with the 'chat' subprotocol
+2. Send initial connection message:
 ```json
 {
   "type": "connect",
@@ -113,7 +89,9 @@ The server uses the 'chat' subprotocol. All messages are JSON-formatted with the
 }
 ```
 
-2. **Chat Message**
+### Message Types
+
+1. **Chat Message**
 ```json
 {
   "type": "message",
@@ -122,7 +100,7 @@ The server uses the 'chat' subprotocol. All messages are JSON-formatted with the
 }
 ```
 
-3. **Private Message**
+2. **Private Message**
 ```json
 {
   "type": "private",
@@ -131,16 +109,60 @@ The server uses the 'chat' subprotocol. All messages are JSON-formatted with the
 }
 ```
 
-4. **Ping**
+3. **Ping**
 ```json
 {
   "type": "ping"
 }
 ```
 
-## 🤝 Contributing
+### System Messages
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+The server sends automatic system messages for:
+- User joins/leaves
+- Connection errors
+- User list updates
+- Room events
+
+## 🔒 Security Features
+
+### CORS Protection
+- Configurable allowed origins
+- Wildcard pattern support
+- Strict mode in production
+
+### Rate Limiting
+- Tracks connection attempts per IP
+- Maximum 20 attempts per 15 seconds
+- Automatic temporary bans for violations
+
+### Connection Security
+- Message size limits
+- Connection timeouts
+- Ping/pong health checks
+- Protocol validation
+
+## 📝 Logging
+
+The server implements comprehensive logging:
+- Connection attempts
+- Message processing
+- Error handling
+- Security events
+
+Log format:
+```
+%(asctime)s - %(levelname)s - %(message)s
+```
+
+## 🧪 Testing
+
+To run tests (when implemented):
+```bash
+python -m pytest tests/
+```
+
+## 🤝 Contributing
 
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
@@ -150,9 +172,5 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](../LICENSE) file for details.
 
-
-## 🙏 Acknowledgments
-
-- Special thanks to the `websockets` library maintainers
