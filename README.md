@@ -1,70 +1,158 @@
-# Getting Started with Create React App
+# Real-Time Chat Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A modern, real-time chat application built with Python WebSocket backend and React frontend, featuring private messaging, room-based chat, and robust security features.
 
-## Available Scripts
+## 🌟 Features
 
-In the project directory, you can run:
+- **Real-time Communication**: Instant message delivery using WebSocket technology
+- **Room-based Chat**: Create and join different chat rooms
+- **Private Messaging**: Send direct messages to other users
+- **User Management**: Track online users and handle user sessions
+- **Security Features**:
+  - CORS protection with configurable allowed origins
+  - Rate limiting to prevent abuse
+  - IP-based connection attempt tracking
+  - Automatic ban system for excessive connection attempts
+- **Robust Error Handling**: Graceful handling of disconnections and errors
+- **Ping/Pong**: Connection health monitoring
+- **System Messages**: Automatic notifications for user events
 
-### `npm start`
+## 🛠️ Tech Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Backend
+- Python 3.8+
+- `websockets` library for WebSocket server
+- Asyncio for asynchronous operations
+- Built-in logging system
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Frontend
+- React
+- WebSocket client
+- Modern UI components
 
-### `npm test`
+## ⚙️ Configuration
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The server can be configured through environment variables:
 
-### `npm run build`
+```bash
+PORT=10000  # WebSocket server port
+ENVIRONMENT=production  # Set to 'production' for strict CORS
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 🚀 Getting Started
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Backend Setup
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/chat-app.git
+cd chat-app/backend
+```
 
-### `npm run eject`
+2. Install dependencies:
+```bash
+pip install -r requirements.txt
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+3. Run the server:
+```bash
+python chatbot.py
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+The server will start on `ws://0.0.0.0:10000/ws` by default.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Frontend Setup
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+1. Navigate to the frontend directory:
+```bash
+cd ../frontend
+```
 
-## Learn More
+2. Install dependencies:
+```bash
+npm install
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+3. Start the development server:
+```bash
+npm run dev
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 🔒 Security Features
 
-### Code Splitting
+- **CORS Protection**: Configurable allowed origins with wildcard support
+- **Rate Limiting**: Maximum 20 connection attempts per 15 seconds
+- **IP Banning**: Automatic temporary bans for excessive connection attempts
+- **Connection Timeout**: 15-second timeout for initial connection setup
+- **Message Size Limit**: 1MB maximum message size
+- **Ping/Pong**: 20-second ping interval with 10-second timeout
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## 📝 API Documentation
 
-### Analyzing the Bundle Size
+### WebSocket Protocol
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+The server uses the 'chat' subprotocol. All messages are JSON-formatted with the following structure:
 
-### Making a Progressive Web App
+```json
+{
+  "type": "connect|message|private|ping",
+  "content": "message content",
+  "username": "sender name",
+  "room": "room name",
+  "timestamp": "ISO timestamp"
+}
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Message Types
 
-### Advanced Configuration
+1. **Connect**
+```json
+{
+  "type": "connect",
+  "username": "your_username"
+}
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+2. **Chat Message**
+```json
+{
+  "type": "message",
+  "content": "Hello, world!",
+  "room": "general"
+}
+```
 
-### Deployment
+3. **Private Message**
+```json
+{
+  "type": "private",
+  "to": "recipient_username",
+  "content": "Private message"
+}
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+4. **Ping**
+```json
+{
+  "type": "ping"
+}
+```
 
-### `npm run build` fails to minify
+## 🤝 Contributing
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+
+## 🙏 Acknowledgments
+
+- Special thanks to the `websockets` library maintainers
