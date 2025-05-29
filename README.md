@@ -1,165 +1,163 @@
-# Chat Application Backend
+# Chat Application Frontend
 
-A robust WebSocket server implementation in Python that powers real-time chat functionality with advanced security features and room-based messaging.
+A modern, responsive chat application frontend built with React, featuring real-time messaging, room management, and a beautiful user interface.
 
 ## 🚀 Features
 
-- **WebSocket Server**: Asynchronous WebSocket server using `websockets` library
-- **Room Management**: Support for multiple chat rooms with dynamic creation
-- **Private Messaging**: Direct user-to-user messaging capabilities
+- **Real-time Chat**: Instant message delivery using WebSocket
+- **Room Management**: Create and join different chat rooms
+- **Private Messaging**: Direct user-to-user communication
+- **User Interface**:
+  - Modern, responsive design
+  - Dark/Light mode support
+  - Real-time user presence
+  - Message history
+  - Typing indicators
+- **User Experience**:
+  - Smooth animations
+  - Error handling
+  - Connection status indicators
+  - Message delivery status
 - **Security**:
-  - Configurable CORS with wildcard pattern matching
-  - Rate limiting (20 attempts per 15 seconds)
-  - IP-based connection tracking
-  - Automatic temporary bans for abuse
-- **Connection Management**:
-  - Automatic ping/pong for connection health
-  - Graceful connection handling
-  - User session tracking
-- **Logging**: Comprehensive logging system for monitoring and debugging
+  - Secure WebSocket connection
+  - Input sanitization
+  - Error boundary protection
 
 ## 🛠️ Tech Stack
 
-- Python 3.8+
-- `websockets` library
-- `asyncio` for asynchronous operations
-- Built-in `logging` module
-- `fnmatch` for pattern matching
+- **Core**:
+  - React 18+
+  - TypeScript
+  - Vite (Build tool)
+- **Styling**:
+  - Tailwind CSS
+  - CSS Modules
+- **State Management**:
+  - React Context
+  - Custom Hooks
+- **WebSocket**:
+  - Native WebSocket API
+- **Development**:
+  - ESLint
+  - Prettier
+  - TypeScript
 
 ## 📋 Prerequisites
 
-- Python 3.8 or higher
-- pip (Python package manager)
+- Node.js 16.x or higher
+- npm or yarn package manager
 
 ## ⚙️ Installation
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/rahimaathar/chatbot-backend.git
-cd chatbot-backend
+git clone https://github.com/rahimaathar/chat-app.git
+cd chat-app
 ```
 
-2. Create and activate a virtual environment (recommended):
+2. Install dependencies:
 ```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+npm install
+# or
+yarn install
 ```
 
-3. Install dependencies:
-```bash
-pip install -r requirements.txt
+3. Create a `.env` file in the root directory:
+```env
+VITE_WS_URL=ws://localhost:10000/ws
+VITE_API_URL=http://localhost:10000
 ```
+
+## 🚀 Development
+
+Start the development server:
+```bash
+npm run dev
+# or
+yarn dev
+```
+
+The application will be available at `http://localhost:5173`
+
+## 🏗️ Building for Production
+
+```bash
+npm run build
+# or
+yarn build
+```
+
+The build output will be in the `dist` directory.
+
+## 📱 Features in Detail
+
+### Chat Rooms
+- Join existing rooms
+- Create new rooms
+- Room-specific message history
+- Room member list
+
+### Private Messaging
+- Direct user-to-user chat
+- Message history
+- Online status indicators
+- Typing indicators
+
+### User Interface
+- Responsive design for all devices
+- Dark/Light mode toggle
+- Message timestamps
+- User avatars
+- Emoji support
+- File sharing (if implemented)
+
+### Real-time Features
+- Instant message delivery
+- User presence updates
+- Typing indicators
+- Connection status
+- Message delivery status
+
+## 🎨 UI Components
+
+- **ChatWindow**: Main chat interface
+- **MessageList**: Message history display
+- **MessageInput**: Message composition
+- **UserList**: Online users display
+- **RoomList**: Available rooms
+- **StatusBar**: Connection and user status
+- **Settings**: User preferences
 
 ## 🔧 Configuration
 
-The server can be configured through environment variables:
+The application can be configured through environment variables:
 
-```bash
-PORT=10000  # WebSocket server port
-ENVIRONMENT=production  # Set to 'production' for strict CORS
-```
-
-Default configuration in `ServerConfig` class:
-- Host: 0.0.0.0
-- Port: 10000 (configurable via PORT env var)
-- Max connection attempts: 20 per 15 seconds
-- Connection timeout: 15 seconds
-- Message size limit: 1MB
-- Ping interval: 20 seconds
-- Ping timeout: 10 seconds
-
-## 🚀 Running the Server
-
-```bash
-python chatbot.py
-```
-
-The server will start on `ws://0.0.0.0:10000/ws` by default.
-
-## 📡 WebSocket Protocol
-
-### Connection
-
-1. Connect to the WebSocket endpoint with the 'chat' subprotocol
-2. Send initial connection message:
-```json
-{
-  "type": "connect",
-  "username": "your_username"
-}
-```
-
-### Message Types
-
-1. **Chat Message**
-```json
-{
-  "type": "message",
-  "content": "Hello, world!",
-  "room": "general"
-}
-```
-
-2. **Private Message**
-```json
-{
-  "type": "private",
-  "to": "recipient_username",
-  "content": "Private message"
-}
-```
-
-3. **Ping**
-```json
-{
-  "type": "ping"
-}
-```
-
-### System Messages
-
-The server sends automatic system messages for:
-- User joins/leaves
-- Connection errors
-- User list updates
-- Room events
-
-## 🔒 Security Features
-
-### CORS Protection
-- Configurable allowed origins
-- Wildcard pattern support
-- Strict mode in production
-
-### Rate Limiting
-- Tracks connection attempts per IP
-- Maximum 20 attempts per 15 seconds
-- Automatic temporary bans for violations
-
-### Connection Security
-- Message size limits
-- Connection timeouts
-- Ping/pong health checks
-- Protocol validation
-
-## 📝 Logging
-
-The server implements comprehensive logging:
-- Connection attempts
-- Message processing
-- Error handling
-- Security events
-
-Log format:
-```
-%(asctime)s - %(levelname)s - %(message)s
+```env
+VITE_WS_URL=ws://localhost:10000/ws  # WebSocket server URL
+VITE_API_URL=http://localhost:10000  # API server URL
+VITE_APP_NAME=Chat App               # Application name
 ```
 
 ## 🧪 Testing
 
-To run tests (when implemented):
+Run the test suite:
 ```bash
-python -m pytest tests/
+npm run test
+# or
+yarn test
+```
+
+## 📦 Project Structure
+
+```
+src/
+├── components/     # React components
+├── hooks/         # Custom React hooks
+├── context/       # React context providers
+├── types/         # TypeScript type definitions
+├── utils/         # Utility functions
+├── styles/        # CSS and styling
+└── App.tsx        # Root component
 ```
 
 ## 🤝 Contributing
@@ -173,4 +171,5 @@ python -m pytest tests/
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](../LICENSE) file for details.
+
 
