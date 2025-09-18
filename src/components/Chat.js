@@ -15,7 +15,7 @@ import ConnectionScreen from "./ConnectionScreen";
 import { bounce, pulse, fadeIn } from "../styles/animations";
 import './chat.css';
 
-// Constants
+
 const MAX_MESSAGES = 50;
 const PING_INTERVAL = 25000;
 const TYPING_DEBOUNCE = 500;
@@ -23,7 +23,7 @@ const RECONNECT_DELAY = 3000;
 const MAX_RECONNECT_ATTEMPTS = 5;
 
 const Chat = () => {
-  // State
+
   const [username, setUsername] = useState("");
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
@@ -46,13 +46,13 @@ const Chat = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
-  // Refs
+
   const messagesEndRef = useRef(null);
   const typingTimeoutRef = useRef(null);
   const retryCountRef = useRef(0);
   const inputRef = useRef(null);
 
-  // Memoized values
+
   const currentMessages = useMemo(() => {
     return selectedUser
       ? privateMessages[selectedUser] || []
@@ -63,7 +63,7 @@ const Chat = () => {
     return users.filter(u => u !== username);
   }, [users, username]);
 
-  // Effects
+  
   useEffect(() => {
     scrollToBottom();
   }, [currentMessages]);
@@ -84,7 +84,7 @@ const Chat = () => {
         return;
       }
 
-      // Only add message if it's from another user
+
       if (message.sender !== username) {
         setMessages(prev => [...prev.slice(-MAX_MESSAGES), message]);
       }
@@ -129,7 +129,7 @@ const Chat = () => {
       attemptReconnect();
     };
 
-    // Add event listeners and store unsubscribe functions
+    
     const unsubscribers = [
       websocketService.on('message', handleMessage),
       websocketService.on('userList', handleUserList),
@@ -138,14 +138,14 @@ const Chat = () => {
       websocketService.on('error', handleError)
     ];
 
-    // Cleanup function
+
     return () => {
-      // Call all unsubscribe functions
+  
       unsubscribers.forEach(unsubscribe => unsubscribe());
     };
   }, [username, selectedUser, soundEnabled]);
 
-  // Helper functions
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -169,7 +169,7 @@ const Chat = () => {
     }, delay);
   };
 
-  // Event handlers
+  
   const handleConnect = async () => {
     if (!username.trim()) {
       setSnackbar({
@@ -219,7 +219,7 @@ const Chat = () => {
         websocketService.sendMessage(message, currentRoom);
       }
 
-      // Add message to local state immediately
+      
       const newMessage = {
         id: Date.now().toString(),
         content: message,
@@ -310,7 +310,7 @@ const Chat = () => {
 
     try {
       if (file.type.startsWith('audio/')) {
-        // Get audio duration
+  
         const audioUrl = URL.createObjectURL(file);
         const audio = new Audio(audioUrl);
 
@@ -330,7 +330,6 @@ const Chat = () => {
 
         console.log('Audio duration:', duration); // Debug log
 
-        // Handle voice message
         const message = {
           id: Date.now().toString(),
           type: 'voice',
@@ -341,7 +340,7 @@ const Chat = () => {
           duration: duration
         };
 
-        // Send to server
+
         const base64Content = await fileToBase64(file);
         websocketService.sendMessage(JSON.stringify({
           type: 'voice',
@@ -350,10 +349,10 @@ const Chat = () => {
           duration: duration
         }));
 
-        // Add to local messages
+
         setMessages(prev => [...prev.slice(-MAX_MESSAGES), message]);
       } else {
-        // Handle other media types
+     
         setSnackbar({
           open: true,
           message: "Media sharing not implemented yet",
