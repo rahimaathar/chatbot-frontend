@@ -2,7 +2,7 @@
 
 A modern, responsive chat application frontend built with React, featuring real-time messaging, room management, and a beautiful user interface.
 
-## 🚀 Features
+##  Features
 
 - **Real-time Chat**: Instant message delivery using WebSocket
 - **Room Management**: Create and join different chat rooms
@@ -23,7 +23,7 @@ A modern, responsive chat application frontend built with React, featuring real-
   - Input sanitization
   - Error boundary protection
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Core**:
   - React 18+
@@ -42,7 +42,7 @@ A modern, responsive chat application frontend built with React, featuring real-
   - Prettier
   - TypeScript
 
-## 📋 Prerequisites
+##  Prerequisites
 
 - Node.js 16.x or higher
 - npm or yarn package manager
@@ -68,7 +68,7 @@ VITE_WS_URL=ws://localhost:10000/ws
 VITE_API_URL=http://localhost:10000
 ```
 
-## 🚀 Development
+## Development
 
 Start the development server:
 ```bash
@@ -89,7 +89,7 @@ yarn build
 
 The build output will be in the `dist` directory.
 
-## 📱 Features in Detail
+##  Features in Detail
 
 ### Chat Rooms
 - Join existing rooms
@@ -118,7 +118,7 @@ The build output will be in the `dist` directory.
 - Connection status
 - Message delivery status
 
-## 🎨 UI Components
+##  UI Components
 
 - **ChatWindow**: Main chat interface
 - **MessageList**: Message history display
@@ -128,48 +128,10 @@ The build output will be in the `dist` directory.
 - **StatusBar**: Connection and user status
 - **Settings**: User preferences
 
-## 🔧 Configuration
 
-The application can be configured through environment variables:
 
-```env
-VITE_WS_URL=ws://localhost:10000/ws  # WebSocket server URL
-VITE_API_URL=http://localhost:10000  # API server URL
-VITE_APP_NAME=Chat App               # Application name
-```
 
-## 🧪 Testing
 
-Run the test suite:
-```bash
-npm run test
-# or
-yarn test
-```
 
-## 📦 Project Structure
-
-```
-src/
-├── components/     # React components
-├── hooks/         # Custom React hooks
-├── context/       # React context providers
-├── types/         # TypeScript type definitions
-├── utils/         # Utility functions
-├── styles/        # CSS and styling
-└── App.tsx        # Root component
-```
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](../LICENSE) file for details.
 
 
