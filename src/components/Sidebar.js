@@ -31,7 +31,7 @@ const Sidebar = ({
                 </Box>
                 <Divider />
 
-                {/* Rooms Section */}
+             
                 <Box sx={{ p: 2 }}>
                     <Typography variant="subtitle2" color="text.secondary">
                         Rooms
@@ -58,7 +58,7 @@ const Sidebar = ({
 
                 <Divider />
 
-                {/* Users Section */}
+            
                 <Box sx={{ p: 2 }}>
                     <Typography variant="subtitle2" color="text.secondary">
                         Online Users
@@ -81,7 +81,7 @@ const Sidebar = ({
                 </Box>
             </Box>
 
-            {/* Toggle Button */}
+      
             <Tooltip title={open ? "Collapse sidebar" : "Expand sidebar"} placement="right">
                 <Box
                     className={`sidebar-toggle ${theme}`}
