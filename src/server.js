@@ -9,7 +9,7 @@ const fs = require('fs');
 const app = express();
 const server = http.createServer(app);
 
-// Configure CORS
+
 const corsOptions = {
     origin: '*',
     methods: ['GET', 'POST'],
@@ -18,22 +18,21 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
-// Create WebSocket server with CORS
+
 const wss = new WebSocket.Server({ 
     server,
     verifyClient: (info, callback) => {
-        // Allow all connections for now
         callback(true);
     }
 });
 
-// Create uploads directory if it doesn't exist
+
 const uploadsDir = path.join(__dirname, 'public', 'uploads');
 if (!fs.existsSync(uploadsDir)) {
     fs.mkdirSync(uploadsDir, { recursive: true });
 }
 
-// Configure multer for file uploads
+
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, uploadsDir);
@@ -50,7 +49,7 @@ const upload = multer({
         fileSize: 5 * 1024 * 1024 // 5MB limit
     },
     fileFilter: function (req, file, cb) {
-        // Accept images only
+       
         if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
             return cb(new Error('Only image files are allowed!'), false);
         }
@@ -58,17 +57,17 @@ const upload = multer({
     }
 });
 
-// Serve static files from public directory
+
 app.use(express.static(path.join(__dirname, 'public')));
 
-// File upload endpoint
+
 app.post('/api/upload', upload.single('file'), (req, res) => {
     try {
         if (!req.file) {
             return res.status(400).json({ error: 'No file uploaded' });
         }
 
-        // Return the file URL
+
         const fileUrl = `/uploads/${req.file.filename}`;
         res.json({ url: fileUrl });
     } catch (error) {
@@ -77,7 +76,7 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
     }
 });
 
-// WebSocket connection handling
+
 const clients = new Map();
 const rooms = new Map();
 
@@ -85,8 +84,6 @@ wss.on('connection', (ws, req) => {
     console.log('New WebSocket connection from:', req.socket.remoteAddress);
     let username = null;
     let currentRoom = 'general';
-
-    // Set up ping interval to keep connection alive
     const pingInterval = setInterval(() => {
         if (ws.readyState === WebSocket.OPEN) {
             ws.ping();
@@ -102,20 +99,20 @@ wss.on('connection', (ws, req) => {
                 username = data.username;
                 clients.set(ws, { username, currentRoom });
 
-                // Add user to general room
+            
                 if (!rooms.has('general')) {
                     rooms.set('general', new Set());
                 }
                 rooms.get('general').add(ws);
 
-                // Broadcast user joined
+             
                 broadcastToRoom('general', {
                     type: 'system',
                     content: `${username} has joined the chat`,
                     timestamp: new Date().toLocaleTimeString()
                 });
 
-                // Send current users list
+              
                 broadcastUserList();
             } else if (data.type === 'message' || data.type === 'media') {
                 if (username) {
@@ -129,7 +126,7 @@ wss.on('connection', (ws, req) => {
                         room: data.room || currentRoom
                     };
 
-                    // For media messages, ensure the content is properly formatted
+                   
                     if (data.type === 'media' && data.content) {
                         if (typeof data.content === 'string' && data.content.startsWith('data:')) {
                             message.content = data.content;
@@ -166,12 +163,11 @@ wss.on('connection', (ws, req) => {
                 }
             } else if (data.type === 'join_room') {
                 if (username) {
-                    // Leave current room
+                   
                     if (rooms.has(currentRoom)) {
                         rooms.get(currentRoom).delete(ws);
                     }
 
-                    // Join new room
                     currentRoom = data.room;
                     if (!rooms.has(currentRoom)) {
                         rooms.set(currentRoom, new Set());
@@ -179,7 +175,6 @@ wss.on('connection', (ws, req) => {
                     rooms.get(currentRoom).add(ws);
                     clients.set(ws, { username, currentRoom });
 
-                    // Notify room change
                     broadcastToRoom(currentRoom, {
                         type: 'system',
                         content: `${username} has joined the room`,
@@ -203,22 +198,22 @@ wss.on('connection', (ws, req) => {
         clearInterval(pingInterval);
 
         if (username) {
-            // Remove from current room
+          
             if (rooms.has(currentRoom)) {
                 rooms.get(currentRoom).delete(ws);
             }
 
-            // Remove from clients
+         
             clients.delete(ws);
 
-            // Broadcast user left
+ 
             broadcastToRoom(currentRoom, {
                 type: 'system',
                 content: `${username} has left the chat`,
                 timestamp: new Date().toLocaleTimeString()
             });
 
-            // Update user list
+ 
             broadcastUserList();
         }
     });
