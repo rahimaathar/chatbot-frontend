@@ -52,7 +52,7 @@ const CustomAudioPlayer = ({ src, duration, theme, isOwnMessage }) => {
                     setIsMetadataLoaded(true);
                     setError(null);
                 } else {
-                    // If we have a duration prop, use it
+                   
                     if (duration) {
                         setTotalDuration(duration);
                         setIsMetadataLoaded(true);
@@ -84,18 +84,18 @@ const CustomAudioPlayer = ({ src, duration, theme, isOwnMessage }) => {
             }
         };
 
-        // Set up event listeners
+       
         audio.addEventListener('loadedmetadata', handleLoadedMetadata);
         audio.addEventListener('timeupdate', updateProgress);
         audio.addEventListener('ended', () => setIsPlaying(false));
         audio.addEventListener('error', handleError);
 
-        // Try to load metadata immediately
+    
         if (audio.readyState >= 1) {
             handleLoadedMetadata();
         }
 
-        // If we have a duration prop, use it immediately
+        
         if (duration) {
             setTotalDuration(duration);
             setIsMetadataLoaded(true);
@@ -155,10 +155,8 @@ const CustomAudioPlayer = ({ src, duration, theme, isOwnMessage }) => {
             position: 'relative',
             boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
         }}>
-            {/* Hidden audio element */}
+         
             <audio ref={audioRef} src={src} preload="metadata" />
-
-            {/* Play/Pause Button */}
             <IconButton
                 onClick={togglePlay}
                 disabled={!isMetadataLoaded && !duration}
@@ -174,7 +172,7 @@ const CustomAudioPlayer = ({ src, duration, theme, isOwnMessage }) => {
                 {isPlaying ? <Pause /> : <PlayArrow />}
             </IconButton>
 
-            {/* Progress Bar */}
+ 
             <Box sx={{ flex: 1, mx: 1 }}>
                 <Slider
                     value={progress}
