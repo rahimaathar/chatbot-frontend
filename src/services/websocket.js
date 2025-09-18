@@ -1,4 +1,4 @@
-// Constants
+
 const CONNECTION_TIMEOUT = 10000;
 const MAX_RECONNECT_ATTEMPTS = 10;
 const BASE_RECONNECT_DELAY = 1000;
@@ -6,7 +6,7 @@ const MAX_RECONNECT_DELAY = 30000;
 const PING_INTERVAL = 30000;
 const PONG_TIMEOUT = 15000;
 
-// Get WebSocket URL from environment or fallback to Render URL
+
 const WS_URL = process.env.REACT_APP_WS_URL ||
   (window.location.protocol === 'https:'
     ? 'wss://chatbot-backend-1b31.onrender.com/ws'
@@ -16,7 +16,6 @@ console.log('WebSocket URL:', WS_URL);
 console.log('Environment:', process.env.NODE_ENV);
 console.log('Protocol:', window.location.protocol);
 
-// Add connection options
 const WS_OPTIONS = {
   timeout: CONNECTION_TIMEOUT,
   protocols: ['chat']
@@ -40,7 +39,7 @@ class WebSocketService {
       reconnectAttempts: 0,
       currentUsername: null,
       lastPong: null,
-      connectionStatus: 'disconnected', // 'disconnected'|'connecting'|'connected'|'error'
+      connectionStatus: 'disconnected', 
     };
     this.timers = {
       reconnect: null,
@@ -50,7 +49,7 @@ class WebSocketService {
     this.messageQueue = [];
   }
 
-  // Public API
+
   async connect(username) {
     if (this.state.isConnecting || this.isConnected) {
       throw new Error(`Already ${this.state.connectionStatus}`);
@@ -126,7 +125,7 @@ class WebSocketService {
     });
   }
 
-  // Event handling
+
   on(event, handler) {
     if (!this.handlers[event]) {
       throw new Error(`Invalid event type: ${event}`);
@@ -143,7 +142,6 @@ class WebSocketService {
     return this.ws?.readyState === WebSocket.OPEN;
   }
 
-  // Private methods
   async _establishConnection() {
     this._cleanup();
 
@@ -367,5 +365,4 @@ class WebSocketService {
   }
 }
 
-// Singleton instance
 export const websocketService = new WebSocketService();
