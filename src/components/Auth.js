@@ -53,9 +53,7 @@ const Auth = ({ onAuthSuccess }) => {
         try {
             setLoading(true);
             setError('');
-            // Implement Google authentication
-            // const result = await authService.signInWithGoogle();
-            // onAuthSuccess(result.user);
+        
         } catch (error) {
             setError('Failed to authenticate with Google');
         } finally {
@@ -69,13 +67,9 @@ const Auth = ({ onAuthSuccess }) => {
             setLoading(true);
             setError('');
             if (isLogin) {
-                // Implement email login
-                // const result = await authService.signInWithEmail(email, password);
-                // onAuthSuccess(result.user);
+               
             } else {
-                // Implement email signup
-                // const result = await authService.signUpWithEmail(email, password, username);
-                // onAuthSuccess(result.user);
+                
             }
         } catch (error) {
             setError(error.message || 'Authentication failed');
