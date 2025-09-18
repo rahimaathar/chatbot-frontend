@@ -53,13 +53,13 @@ const InputArea = ({
                 const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' });
                 const audioUrl = URL.createObjectURL(audioBlob);
 
-                // Create a File object from the Blob
+             
                 const audioFile = new File([audioBlob], 'voice-message.wav', { type: 'audio/wav' });
 
-                // Share the audio file
+            
                 handleMediaShare(audioFile);
 
-                // Clean up
+        
                 stream.getTracks().forEach(track => track.stop());
                 URL.revokeObjectURL(audioUrl);
                 setRecordingTime(0);
@@ -68,12 +68,12 @@ const InputArea = ({
             mediaRecorderRef.current.start();
             setIsRecordingLocal(true);
 
-            // Start timer
+ 
             timerRef.current = setInterval(() => {
                 setRecordingTime(prev => prev + 1);
             }, 1000);
 
-            // Call the parent's startRecording if provided
+        
             if (startRecording) startRecording();
         } catch (error) {
             console.error('Error starting recording:', error);
@@ -87,7 +87,7 @@ const InputArea = ({
             setIsRecordingLocal(false);
             clearInterval(timerRef.current);
 
-            // Call the parent's stopRecording if provided
+         
             if (stopRecording) stopRecording();
         }
     };
