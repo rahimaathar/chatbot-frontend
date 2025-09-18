@@ -1,4 +1,4 @@
-/* Root and Body */
+
 :root {
     background-color: #ff69b4;
 }
@@ -9,7 +9,7 @@ body {
     padding: 0;
 }
 
-/* Animations */
+
 @keyframes bounce {
 
     0%,
@@ -133,7 +133,7 @@ body {
     }
 }
 
-/* Chat Container */
+
 .chat-container {
     height: 100vh;
     width: 100vw;
@@ -146,7 +146,6 @@ body {
     overflow: hidden;
 }
 
-/* Login Screen */
 .login-container {
     height: 100vh;
     width: 100vw;
@@ -212,7 +211,7 @@ body {
     opacity: 0.8;
 }
 
-/* Sidebar */
+
 .sidebar {
     width: 280px;
     height: 100%;
@@ -258,7 +257,7 @@ body {
     background-color: rgba(0, 0, 0, 0.1);
 }
 
-/* Chat Area */
+
 .chat-area {
     flex: 1;
     display: flex;
@@ -291,7 +290,7 @@ body {
     border-radius: 4px;
 }
 
-/* Chat Header */
+
 .chat-header {
     padding: 16px;
     border-bottom: 1px solid rgba(255, 105, 180, 0.2);
@@ -303,7 +302,7 @@ body {
     box-shadow: 0 1px 2px rgba(255, 105, 180, 0.1);
 }
 
-/* Chat Bubbles */
+
 .chat-bubble-container {
     display: flex;
     margin: 8px 0;
@@ -359,7 +358,7 @@ body {
     color: #ff69b4;
 }
 
-/* Input Area */
+
 .input-area {
     padding: 16px;
     background-color: rgba(255, 255, 255, 0.98);
@@ -415,7 +414,7 @@ body {
     color: rgba(255, 105, 180, 0.5);
 }
 
-/* Buttons */
+
 .icon-button {
     color: #ff69b4 !important;
     transition: all 0.3s ease !important;
@@ -446,7 +445,7 @@ body {
     color: rgba(255, 105, 180, 0.5) !important;
 }
 
-/* Scrollbar */
+
 ::-webkit-scrollbar {
     width: 8px;
 }
@@ -464,7 +463,7 @@ body {
     background: rgba(255, 105, 180, 0.3);
 }
 
-/* Media Sidebar */
+
 .media-sidebar {
     width: 300px;
     background-color: rgba(255, 255, 255, 0.98);
@@ -494,7 +493,7 @@ body {
     transition: transform 0.2s ease;
 }
 
-/* User List */
+
 .user-list {
     padding: 16px;
 }
@@ -517,7 +516,6 @@ body {
     background-color: #f0f0f0;
 }
 
-/* Avatar */
 .avatar {
     width: 32px;
     height: 32px;
@@ -526,7 +524,7 @@ body {
     animation: float 3s ease-in-out infinite;
 }
 
-/* Loading States */
+
 .loading-shimmer {
     width: 100%;
     height: 20px;
@@ -536,7 +534,7 @@ body {
     border-radius: 4px;
 }
 
-/* Error Messages */
+
 .error-message {
     margin-top: 8px;
     text-align: center;
@@ -546,7 +544,7 @@ body {
     border-radius: 5px;
 }
 
-/* Animation classes */
+
 .fade-in {
     animation: fadeIn 0.3s ease-out;
 }
@@ -563,7 +561,6 @@ body {
     animation: pulse 1s infinite;
 }
 
-/* Input area styles */
 .chat-input-container {
     position: relative;
     padding: 16px;
@@ -590,7 +587,7 @@ body {
     box-shadow: 0 0 0 2px rgba(255, 105, 180, 0.2);
 }
 
-/* Button styles */
+
 .chat-button {
     border: none;
     background: none;
@@ -606,7 +603,7 @@ body {
     transform: scale(1.1);
 }
 
-/* Avatar styles */
+
 .chat-avatar {
     width: 32px;
     height: 32px;
@@ -619,7 +616,6 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Media message styles */
 .media-message {
     max-width: 300px;
     border-radius: 10px;
@@ -633,7 +629,7 @@ body {
     object-fit: cover;
 }
 
-/* Voice message styles */
+
 .voice-message {
     width: 100%;
     max-width: 300px;
@@ -716,7 +712,7 @@ body {
     z-index: 3;
 }
 
-/* Theme-specific styles */
+
 .theme-dark .voice-message .custom-audio-player {
     background-color: rgba(45, 45, 68, 0.95);
 }
@@ -729,7 +725,7 @@ body {
     background-color: rgba(255, 240, 245, 0.95);
 }
 
-/* Slider customization */
+
 .voice-message .custom-audio-player .MuiSlider-root {
     color: #ff69b4;
     z-index: 3;
@@ -753,7 +749,6 @@ body {
     background-color: rgba(255, 105, 180, 0.3);
 }
 
-/* Volume slider specific styles */
 .voice-message .custom-audio-player .volume-slider .MuiSlider-thumb {
     width: 10px;
     height: 10px;
@@ -767,7 +762,7 @@ body {
     height: 3px;
 }
 
-/* Dark theme overrides for audio player */
+
 .dark-theme .voice-message .custom-audio-player {
     background-color: rgba(45, 45, 68, 0.95);
 }
@@ -788,7 +783,7 @@ body {
     color: #6c63ff;
 }
 
-/* Cute theme overrides for audio player */
+
 .cute-theme .voice-message .custom-audio-player {
     background-color: rgba(255, 240, 245, 0.95);
 }
@@ -809,7 +804,7 @@ body {
     color: #ff4d6d;
 }
 
-/* Typing indicator styles */
+
 .typing-indicator {
     display: flex;
     align-items: center;
@@ -837,7 +832,7 @@ body {
     opacity: 1;
 }
 
-/* Remove typing dot animation */
+
 @keyframes typingDot {
 
     0%,
@@ -850,7 +845,7 @@ body {
     }
 }
 
-/* Responsive styles */
+
 @media (max-width: 768px) {
     .chat-bubble-container {
         max-width: 90%;
@@ -865,7 +860,7 @@ body {
     }
 }
 
-/* Dark theme overrides */
+
 .dark-theme {
     background-color: #1a1a2e !important;
 }
@@ -926,7 +921,7 @@ body {
     background-color: #5a52d5 !important;
 }
 
-/* Cute theme overrides */
+
 .cute-theme {
     background-color: #fff0f5 !important;
 }
@@ -987,7 +982,7 @@ body {
     background-color: #ff3357 !important;
 }
 
-/* Scrollbar styles for themes */
+
 .dark-theme ::-webkit-scrollbar-thumb {
     background: #4a4e69;
 }
@@ -1004,7 +999,7 @@ body {
     background: #ff4d6d;
 }
 
-/* Message container background for themes */
+
 .dark-theme .messages-container {
     background-color: #1a1a2e;
 }
@@ -1013,7 +1008,7 @@ body {
     background-color: #fff0f5;
 }
 
-/* Chat container background for themes */
+
 .dark-theme .chat-container {
     background-color: #1a1a2e;
     background-image: linear-gradient(45deg, #2d2d44 25%, #1a1a2e 25%, #1a1a2e 50%, #2d2d44 50%, #2d2d44 75%, #1a1a2e 75%, #1a1a2e 100%);
@@ -1024,7 +1019,6 @@ body {
     background-image: linear-gradient(45deg, #ffe8ec 25%, #fff0f5 25%, #fff0f5 50%, #ffe8ec 50%, #ffe8ec 75%, #fff0f5 75%, #fff0f5 100%);
 }
 
-/* Dark theme sidebar overrides */
 .dark-theme .sidebar .MuiList-root {
     background-color: #1a1a2e;
 }
@@ -1042,7 +1036,7 @@ body {
     background: linear-gradient(135deg, #6c63ff, #4a4e69);
 }
 
-/* Cute theme sidebar overrides */
+
 .cute-theme .sidebar .MuiList-root {
     background-color: #fff0f5;
 }
