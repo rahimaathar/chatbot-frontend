@@ -1,6 +1,5 @@
 import { keyframes } from "@mui/system";
 
-// Animation keyframes
 export const bounce = keyframes`
   0%, 20%, 50%, 80%, 100% {
     transform: translateY(0);
